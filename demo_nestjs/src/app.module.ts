@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { InterpretesModule } from './interpretes/interpretes.module';
 import { UsuarioModule } from './usuario/usuario.module';
+import { GenerosModule } from './generos/generos.module';
+import { AlbumesModule } from './albumes/albumes.module';
 
 // el module principal de la aplicación, en el cual se importan los módulos necesarios para el
 //funcionamiento de la aplicación por ejemplo el módulo de configuración, el módulo de TypeORM y el módulo de los intérpretes
@@ -24,6 +26,8 @@ import { UsuarioModule } from './usuario/usuario.module';
     }),
     InterpretesModule,
     UsuarioModule,
+    GenerosModule,
+    AlbumesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

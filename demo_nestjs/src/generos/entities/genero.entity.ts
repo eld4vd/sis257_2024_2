@@ -1,23 +1,19 @@
-import { Album } from 'src/albumes/entities/album.entity';
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
-@Entity('interpretes')
-export class Interprete {
+
+@Entity('generos')
+export class Genero {
   @PrimaryGeneratedColumn('identity')
   id: number;
 
-  @Column('varchar', { length: 50 })
-  nombre: string;
-
-  @Column('varchar', { length: 30 })
-  nacionalidad: string;
+  @Column('varchar', { length: 150 })
+  descripcion: string;
 
   @CreateDateColumn({ name: 'fecha_creacion' })
   fechaCreacion: Date;
@@ -27,8 +23,4 @@ export class Interprete {
 
   @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
   fechaEliminacion: Date;
-
-  // para la relación con la tabla albumes, la relación es de uno a muchos
-  @OneToMany(() => Album, (album) => album.interprete)
-  albumes: Album[];
 }
