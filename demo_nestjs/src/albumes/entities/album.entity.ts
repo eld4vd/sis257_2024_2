@@ -7,11 +7,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 //se importa la entidad Interprete, esto es para poder relacionar la entidad Album con la entidad Interprete
 import { Interprete } from 'src/interpretes/entities/interprete.entity';
+import { Cancion } from 'src/canciones/entities/cancion.entity';
 
 @Entity('albumes')
 export class Album {
@@ -37,4 +39,7 @@ export class Album {
   @ManyToOne(() => Interprete, (interprete) => interprete.albumes)
   @JoinColumn({ name: 'id_interprete', referencedColumnName: 'id' })
   interprete: Interprete;
+
+  @OneToMany(() => Cancion, (cancion) => cancion.album)
+  canciones: Cancion[];
 }

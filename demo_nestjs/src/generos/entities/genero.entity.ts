@@ -1,3 +1,4 @@
+import { Cancion } from 'src/canciones/entities/cancion.entity';
 import {
   Column,
   CreateDateColumn,
@@ -5,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('generos')
@@ -23,4 +25,8 @@ export class Genero {
 
   @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
   fechaEliminacion: Date;
+
+
+  @OneToMany(() => Cancion, (cancion) => cancion.genero)
+  canciones :Cancion[];
 }

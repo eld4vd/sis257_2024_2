@@ -1,4 +1,4 @@
-// En el archivo DTO es donde se definen los objetos que se reciben en las peticiones HTTP, 
+// En el archivo DTO es donde se definen los objetos que se reciben en las peticiones HTTP,
 //en este caso se define el objeto CreateAlbumDto que pronto se usará en el controlador de albumes
 
 import { ApiProperty } from '@nestjs/swagger';

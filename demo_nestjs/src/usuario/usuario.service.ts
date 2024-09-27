@@ -62,7 +62,7 @@ export class UsuarioService {
     updateUsuarioDto: UpdateUsuarioDto,
   ): Promise<Usuario> {
     const Usuario = await this.findOne(id);
-    const usuarioUpdated = Object.assign(Usuario, updateUsuarioDto);
+    const usuarioUpdated = Object.assign(Usuario, updateUsuarioDto); // el object.assign es para copiar atributos que mandaste a actualizar, y los que no mandaste los deja igual ejemplo mandas ci,nombre y digamos no mandaste apellido eso lo mantiene.
     return this.usuariosRepository.save(usuarioUpdated);
   }
 
