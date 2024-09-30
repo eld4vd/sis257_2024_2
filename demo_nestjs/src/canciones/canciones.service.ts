@@ -37,13 +37,15 @@ export class CancionesService {
   }
 
   async findAll(): Promise<Cancion[]> {
-    return this.cancionesRepository.find({ relations: ['album', 'genero'] });
+    return this.cancionesRepository.find({
+      relations: ['album', 'album.interprete', 'genero'],
+    });
   }
 
   async findOne(id: number): Promise<Cancion> {
     const cancion = await this.cancionesRepository.findOne({
       where: { id },
-      relations: ['album', 'album.interprete' ,'genero'],
+      relations: ['album', 'album.interprete', 'genero'],
     });
     if (!cancion) throw new NotFoundException('La cancion no existe');
     return cancion;
