@@ -1,0 +1,25 @@
+h3{
+    color: #dd5454;
+    font-family: 'Times New Roman', Times, serif;
+    
+}
+h4{
+    color: #23db0b;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+h2{
+    background-color: #23db0b; 
+    margin: 20px 20px 20px 10px;  /* arriba derecha abajo izquierda */
+    padding: 20px 200px; /* arriba-abajo izquierda-derecha */
+}
+
+#parrafo01{
+    color: #dd5454;
+    font-family:monospace;
+    font-size: 25px;
+}
+
+.error{
+    background-color: red;
+    text-decoration: line-through;
+}
