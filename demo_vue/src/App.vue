@@ -1,3 +1,6 @@
+<!--LA APP.vue es el componente principal de la aplicación, 
+es el que se encarga de cargar los componentes de la aplicación y de mostrar la barra de navegación.-->
+
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
@@ -15,6 +18,7 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/prueba">Prueba</RouterLink>
         <RouterLink to="/interpretes">Intépretes</RouterLink>
+        <RouterLink to="/canciones">Canciones</RouterLink>
       </nav>
     </div>
   </header>
