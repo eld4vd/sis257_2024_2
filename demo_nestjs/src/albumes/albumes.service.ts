@@ -45,6 +45,25 @@ export class AlbumesService {
     return this.albumesRepository.find({ relations: ['interprete'] }); //se retorna todos los albumes, relations es para que tambien se muestre el interprete
   }
 
+
+
+  /* ESTA MAL EL METODO innerJoin porque no se puede hacer innerJoin con una relación ManyToOne
+  async findByInterprete(idInterprete: number): Promise<Album[]> {
+    return this.albumesRepository
+      .createQueryBuilder('albumes')
+      .innerJoin('albumes.interprete', 'interprete')
+      .where('interprete.id = :idInterprete', { idInterprete })
+      .getMany();
+  }
+  */
+  async findByInterprete(idInterprete: number): Promise<Album[]> {
+    return this.albumesRepository
+      .createQueryBuilder('albumes')
+      .innerJoinAndSelect('albumes.interprete', 'interprete') // Asegura que también selecciones los datos de la relación
+      .where('interprete.id = :idInterprete', { idInterprete })
+      .getMany();
+  }
+  
   //se crea el metodo findOne que recibe un id de tipo number y retorna un objeto de tipo Album, esto sirve para buscar un album por su id
   async findOne(id: number): Promise<Album> {
     const album = this.albumesRepository.findOne({

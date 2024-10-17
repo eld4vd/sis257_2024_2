@@ -29,6 +29,11 @@ export class AlbumesController {
     return this.albumesService.findAll();
   }
 
+  @Get('interprete/:idInterprete')
+  findByInterprete(@Param('idInterprete') idInterprete: string) {
+    return this.albumesService.findByInterprete(+idInterprete);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.albumesService.findOne(+id);

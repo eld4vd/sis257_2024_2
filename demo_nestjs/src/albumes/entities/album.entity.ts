@@ -20,6 +20,9 @@ export class Album {
   @PrimaryGeneratedColumn('identity')
   id: number;
 
+  @Column('integer',{ name: 'id_interprete' })
+  idInterprete: number;
+
   @Column('varchar', { length: 70 })
   nombre: string;
 
