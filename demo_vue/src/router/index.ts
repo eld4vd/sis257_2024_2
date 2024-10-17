@@ -30,6 +30,11 @@ const router = createRouter({
       path: '/canciones',
       name: 'canciones',
       component: () => import('../views/CancionView.vue')
+    },
+    {
+      path: '/albumes',
+      name: 'albumes',
+      component: () => import('../views/AlbumView.vue')
     }
   ]
 })

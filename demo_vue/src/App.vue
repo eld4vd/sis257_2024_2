@@ -19,6 +19,7 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/prueba">Prueba</RouterLink>
         <RouterLink to="/interpretes">Intépretes</RouterLink>
         <RouterLink to="/canciones">Canciones</RouterLink>
+        <RouterLink to="/albumes">Álbumes</RouterLink>
       </nav>
     </div>
   </header>
