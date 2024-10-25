@@ -2,6 +2,9 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import LoginView from '@/views/LoginView.vue'
+import { useAuthStore } from '@/stores'
+import { getTokenFromLocalStorage } from '@/helpers'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,8 +38,25 @@ const router = createRouter({
       path: '/albumes',
       name: 'albumes',
       component: () => import('../views/AlbumView.vue')
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue')
     }
   ]
+})
+
+router.beforeEach(async (to) => {
+  const publicPages = ['/','/login']
+  const authRequired = !publicPages.includes(to.path)
+  const authStore = useAuthStore()
+
+  if (authRequired && !getTokenFromLocalStorage()) {
+    if (authStore) authStore.logout()
+    authStore.returnUrl = to.fullPath
+    return '/login'
+  }
 })
 
 export default router
