@@ -4,88 +4,72 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { CreateUsuariosDto } from './dto/create-usuario.dto';
-import { UpdateUsuariosDto } from './dto/update-usuario.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { Usuario } from './entities/usuario.entity';
 
 @Injectable()
 export class UsuariosService {
   constructor(
     @InjectRepository(Usuario)
-    private usuariossRepository: Repository<Usuario>,
+    private usuariosRepository: Repository<Usuario>,
   ) {}
 
-  async create(createUsuariosDto: CreateUsuariosDto): Promise<Usuario> {
-    // Verificar si ya existe un usuarios con el mismo correo electrónico o nombre de usuarios
-    //findOne() se modifica para que busque un usuarios por correo electrónico o nombre de usuarios
-    const buscandoRepetidos = await this.usuariossRepository.findOne({
-      where: [
-        { email: createUsuariosDto.email.trim() },
-        { usuarios: createUsuariosDto.usuarios.trim() },
-      ],
+  async create(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
+    const existe = await this.usuariosRepository.findOneBy({
+      usuario: createUsuarioDto.usuario.trim(),
     });
-    if (buscandoRepetidos) {
-      if (buscandoRepetidos.email === createUsuariosDto.email.trim()) {
-        throw new ConflictException('El correo electrónico ya está en uso');
-      } else {
-        throw new ConflictException('El nombre de usuarios ya existe');
-      }
-    }
-    // Crear un nuevo usuarios
-    const usuarios = new Usuario();
-    usuarios.usuarios = createUsuariosDto.usuarios.trim();
-    usuarios.clave = process.env.DEFAUlt_PASSWORD;
-    usuarios.email = createUsuariosDto.email.trim();
-    usuarios.rol = createUsuariosDto.rol.trim();
-    usuarios.premiun = createUsuariosDto.premiun;
+    if (existe) throw new ConflictException('El usuario ya existe');
 
-    // Guardar el usuarios en la base de datos
-    return this.usuariossRepository.save(usuarios);
+    const usuario = new Usuario();
+    usuario.usuario = createUsuarioDto.usuario.trim();
+    usuario.clave = process.env.DEFAULT_PASSWORD;
+    usuario.email = createUsuarioDto.email.trim();
+    usuario.rol = createUsuarioDto.rol.trim();
+    usuario.premium = createUsuarioDto.premium;
+
+    return this.usuariosRepository.save(usuario);
   }
 
-  //findAll() se modifica para que retorne una lista de usuarioss
   async findAll(): Promise<Usuario[]> {
-    return this.usuariossRepository.find();
+    return this.usuariosRepository.find();
   }
 
-  //findOne() se modifica para que retorne un usuarios ejemplo por id, sirve cuando se necesita buscar
-  //un usuarios por id y si no existe lanza un mensaje de error
   async findOne(id: number): Promise<Usuario> {
-    const usuarios = await this.usuariossRepository.findOneBy({ id });
-    if (!usuarios) throw new NotFoundException('El interprete no existe');
-    return usuarios;
+    const usuario = await this.usuariosRepository.findOneBy({ id });
+    if (!usuario) throw new NotFoundException('El usuario no existe');
+    return usuario;
   }
 
   async update(
     id: number,
-    updateUsuariosDto: UpdateUsuariosDto,
+    updateUsuarioDto: UpdateUsuarioDto,
   ): Promise<Usuario> {
-    const Usuario = await this.findOne(id);
-    const usuariosUpdated = Object.assign(Usuario, updateUsuariosDto); // el object.assign es para copiar atributos que mandaste a actualizar, y los que no mandaste los deja igual ejemplo mandas ci,nombre y digamos no mandaste apellido eso lo mantiene.
-    return this.usuariossRepository.save(usuariosUpdated);
+    const usuario = await this.findOne(id);
+    const usuarioUpdate = Object.assign(usuario, updateUsuarioDto);
+    return this.usuariosRepository.save(usuarioUpdate);
   }
 
-  //remove() se modifica para que elimine un usuarios por id, sirve cuando se necesita eliminar un usuarios por id
   async remove(id: number) {
-    const usuarios = await this.findOne(id);
-    return this.usuariossRepository.remove(usuarios); //eliminar el registro de la base de datos
+    const usuario = await this.findOne(id);
+    return this.usuariosRepository.softRemove(usuario);
   }
 
-  async validate(usuarios: string, clave: string): Promise<Usuario> {
-    const usuariosOk = await this.usuariossRepository.findOne({
-      where: { usuarios },
-      select: ['id', 'usuarios', 'clave', 'email', 'rol', 'premiun'],
+  async validate(usuario: string, clave: string): Promise<Usuario> {
+    const usuarioOk = await this.usuariosRepository.findOne({
+      where: { usuario },
+      select: ['id', 'usuario', 'clave', 'email', 'rol', 'premium'],
     });
 
-    if (!usuariosOk) throw new NotFoundException('Usuario inexistente');
+    if (!usuarioOk) throw new NotFoundException('Usuario inexistente');
 
-    if (!(await usuariosOk?.validatePassword(clave))) {
+    if (!(await usuarioOk?.validatePassword(clave))) {
       throw new UnauthorizedException('Clave incorrecta');
     }
 
-    delete usuariosOk.clave;
-    return usuariosOk;
+    delete usuarioOk.clave;
+    return usuarioOk;
   }
 }

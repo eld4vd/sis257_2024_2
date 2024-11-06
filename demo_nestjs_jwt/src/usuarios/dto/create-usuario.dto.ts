@@ -7,18 +7,18 @@ import {
   IsBoolean,
 } from 'class-validator';
 
-export class CreateUsuariosDto {
+export class CreateUsuarioDto {
   @ApiProperty()
   @IsNotEmpty({ message: 'El campo es obligatorio' })
   @IsString({ message: 'El campo debe ser un string o cadena' })
   @MaxLength(50, { message: 'El campo debe tener un máximo de 50 caracteres' })
-  readonly usuarios: string;
+  readonly usuario: string;
 
   //@ApiProperty()
   //@IsNotEmpty({ message: 'El campo es obligatorio' })
-  //@IsString({ message: 'El campo debe ser un string o cadena' })
- //@MaxLength(50, { message: 'El campo debe tener un máximo de 50 caracteres' })
-  //readonly clave: string;
+  //  @IsString({ message: 'El campo debe ser un string o cadena' })
+  //@MaxLength(50, { message: 'El campo debe tener un máximo de 50 caracteres' })
+  // readonly clave: string;
 
   @ApiProperty()
   @IsEmail({}, { message: 'El campo debe ser un email' })
@@ -36,5 +36,5 @@ export class CreateUsuariosDto {
   @ApiProperty()
   @IsNotEmpty({ message: 'El campo es obligatorio' })
   @IsBoolean({ message: 'El campo debe ser un booleano' })
-  readonly premiun: boolean;
+  readonly premium: boolean;
 }

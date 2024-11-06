@@ -9,8 +9,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { CreateUsuariosDto } from './dto/create-usuario.dto';
-import { UpdateUsuariosDto } from './dto/update-usuario.dto';
+import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UsuariosService } from './usuarios.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
@@ -23,7 +23,7 @@ export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
   @Post()
-  create(@Body() createUsuariosDto: CreateUsuariosDto) {
+  create(@Body() createUsuariosDto: CreateUsuarioDto) {
     return this.usuariosService.create(createUsuariosDto);
   }
 
@@ -38,10 +38,7 @@ export class UsuariosController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateUsuariosDto: UpdateUsuariosDto,
-  ) {
+  update(@Param('id') id: string, @Body() updateUsuariosDto: UpdateUsuarioDto) {
     return this.usuariosService.update(+id, updateUsuariosDto);
   }
 

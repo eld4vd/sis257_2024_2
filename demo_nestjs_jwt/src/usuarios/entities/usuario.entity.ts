@@ -17,7 +17,7 @@ export class Usuario {
   id: number;
 
   @Column('varchar', { length: 50 })
-  usuarios: string;
+  usuario: string;
 
   @Column('varchar', { length: 255, select: false })
   clave: string;
@@ -29,7 +29,7 @@ export class Usuario {
   rol: string;
 
   @Column('boolean')
-  premiun: boolean;
+  premium: boolean;
 
   @CreateDateColumn({ name: 'fecha_creacion' })
   fechaCreacion: Date;
